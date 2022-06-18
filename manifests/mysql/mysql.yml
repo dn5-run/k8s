@@ -1,0 +1,102 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: sasa
+  name: mysql-server
+spec:
+  type: ClusterIP
+  ports:
+    - name: mysql
+      port: 3306
+      targetPort: 3306
+      protocol: TCP
+  selector:
+    app: mysql-server
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: sasa
+  name: mysql-server
+spec:
+  selector:
+    matchLabels:
+      app: mysql-server
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mysql-server
+    spec:
+      containers:
+        - image: mysql:5.7
+          name: mysql
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secret
+                  key: common_password
+            - name: TZ
+              value: "Asia/Tokyo"
+          ports:
+            - containerPort: 3306
+              name: mysql
+          volumeMounts:
+            - name: mysql-server-conf
+              mountPath: /etc/mysql/conf.d
+            - name: mysql-server-data
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: mysql-server-conf
+          configMap:
+            name: mysql-server-conf-config
+        - name: mysql-server-data
+          persistentVolumeClaim:
+            claimName: mysql-server-data-pvc
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: sasa
+  name: mysql-server-conf-config
+data:
+  custom.cnf: |
+    [mysqld]
+    character-set-server=utf8
+    default_authentication_plugin=mysql_native_password
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  namespace: sasa
+  name: mysql-server-data-pv
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "slow"
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: slow
+  nfs:
+    server: 192.168.1.200
+    path: /exports/slow-drive-01/k8s/sasa/mysql-test
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-server-data-pvc
+  namespace: sasa
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "slow"
+spec:
+  resources:
+    requests:
+      storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
