@@ -25,5 +25,7 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 read -p "Would you like to set it up for cloudflare access? (y/N): " yn
 case "$yn" in [yY]*) ;; *) exit ;; esac
 
+kubectl create namespace system
+
 kubectl apply -f setup/nginx.yml
 kubectl apply -f setup/argo-tunnel.yml
