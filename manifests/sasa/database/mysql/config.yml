@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: sasa
+  name: db-mysql-config
+data:
+  custom.cnf: |
+    [mysqld]
+    default-time-zone = SYSTEM
+    log_timestamps = SYSTEM
+    slow_query_log=ON

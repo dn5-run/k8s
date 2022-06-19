@@ -2,35 +2,34 @@ apiVersion: v1
 kind: Service
 metadata:
   namespace: sasa
-  name: mysql-server
+  name: db-mysql-main
 spec:
-  type: ClusterIP
   ports:
     - name: mysql
       port: 3306
       targetPort: 3306
       protocol: TCP
   selector:
-    app: mysql-server
+    app: db-mysql-main
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: sasa
-  name: mysql-server
+  name: db-mysql-main
 spec:
   selector:
     matchLabels:
-      app: mysql-server
+      app: db-mysql-main
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: mysql-server
+        app: db-mysql-main
     spec:
       containers:
-        - image: mysql:5.7
+        - image: mysql:latest
           name: mysql
           env:
             - name: MYSQL_ROOT_PASSWORD
@@ -44,36 +43,37 @@ spec:
             - containerPort: 3306
               name: mysql
           volumeMounts:
-            - name: mysql-server-conf
+            - name: db-mysql-conf
               mountPath: /etc/mysql/conf.d
-            - name: mysql-server-data
+            - name: db-mysql-data
               mountPath: /var/lib/mysql
       volumes:
-        - name: mysql-server-conf
+        - name: db-mysql-conf
           configMap:
-            name: mysql-server-conf-config
-        - name: mysql-server-data
+            name: db-mysql-config
+        - name: db-mysql-data
           persistentVolumeClaim:
-            claimName: mysql-server-data-pvc
+            claimName: db-mysql-main-pvc
 ---
 apiVersion: v1
-kind: ConfigMap
+kind: PersistentVolumeClaim
 metadata:
+  name: db-mysql-main-pvc
   namespace: sasa
-  name: mysql-server-conf-config
-data:
-  custom.cnf: |
-    [mysqld]
-    character-set-server=utf8
-    default_authentication_plugin=mysql_native_password
+spec:
+  storageClassName: mysql-main-pv-class
+  resources:
+    requests:
+      storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
   namespace: sasa
-  name: mysql-server-data-pv
-  annotations:
-    volume.beta.kubernetes.io/storage-class: "slow"
+  name: db-mysql-main-pv
 spec:
   capacity:
     storage: 5Gi
@@ -81,22 +81,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Delete
-  storageClassName: slow
+  storageClassName: mysql-main-pv-class
   nfs:
     server: 192.168.1.200
-    path: /exports/slow-drive-01/k8s/sasa/mysql-test
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mysql-server-data-pvc
-  namespace: sasa
-  annotations:
-    volume.beta.kubernetes.io/storage-class: "slow"
-spec:
-  resources:
-    requests:
-      storage: 5Gi
-  volumeMode: Filesystem
-  accessModes:
-    - ReadWriteOnce
+    path: /exports/slow-drive-01/k8s/sasa/mysql/main
