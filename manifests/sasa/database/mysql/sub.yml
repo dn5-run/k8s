@@ -84,4 +84,4 @@ spec:
   storageClassName: mysql-sub-pv-class
   nfs:
     server: 192.168.1.200
-    path: /exports/slow-drive-01/k8s/sasa/mysql/sub
+    path: /exports/slow-drive-01/k8s/sasa/database/mysql-sub
