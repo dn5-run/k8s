@@ -1,3 +1,4 @@
+wget https://github.com/flannel-io/flannel/releases/latest/download/flanneld-amd64 -O /opt/bin/flanneld
 kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
 
 read -p "Press [Enter] key to continue..."
