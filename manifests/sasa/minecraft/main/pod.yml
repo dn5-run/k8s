@@ -31,10 +31,6 @@ spec:
               value: "0"
             - name: GID
               value: "0"
-          resources:
-            limits:
-              memory: 4Gi
-              cpu: 2000m
           volumeMounts:
             - name: minecraft-main-storage
               mountPath: /data

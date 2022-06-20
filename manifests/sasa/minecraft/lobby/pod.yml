@@ -33,8 +33,8 @@ spec:
               value: "0"
           resources:
             limits:
-              memory: 2Gi
-              cpu: 1000m
+              memory: 1Gi
+              cpu: "1"
           volumeMounts:
             - name: minecraft-lobby-storage
               mountPath: /data
