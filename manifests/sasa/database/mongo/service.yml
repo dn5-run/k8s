@@ -5,7 +5,7 @@ metadata:
   name: db-mongo
 spec:
   selector:
-    app: mongo
+    app: db-mongo
   ports:
   - port: 27017
     targetPort: 27017
