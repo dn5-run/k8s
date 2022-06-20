@@ -14,5 +14,5 @@ spec:
     storage: 5Gi
   nfs:
     server: 192.168.1.200
-    path: /exports/slow-drive-01/k8s/sasa/minecraft/lobby
+    path: /exports/fast-drive-02/k8s/sasa/minecraft/lobby
   persistentVolumeReclaimPolicy: Delete
