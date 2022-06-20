@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  namespace: sasa
+  name: db-mysql-sub-pv
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: mysql-sub-pv-class
+  nfs:
+    server: 192.168.1.200
+    path: /exports/slow-drive-01/k8s/sasa/database/mysql-sub

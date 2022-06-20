@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  namespace: sasa
+  name: db-mysql-main-pv
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: mysql-main-pv-class
+  nfs:
+    server: 192.168.1.200
+    path: /exports/fast-drive-01/k8s/sasa/database/mysql-main
