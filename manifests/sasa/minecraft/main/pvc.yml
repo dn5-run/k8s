@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: sasa
+  name: minecraft-main-pvc
+  labels:
+    app: minecraft-main
+spec:
+  storageClassName: minecraft-main
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
