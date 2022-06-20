@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: sasa
+  name: minecraft-lobby
+  labels:
+    app: minecraft-lobby
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minecraft-lobby
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: minecraft-lobby
+    spec:
+      containers:
+        - image: itzg/minecraft-server:java17
+          name: minecraft-lobby
+          env:
+            - name: TYPE
+              value: PAPER
+            - name: ENABLE_RCON
+              value: "true"
+            - name: VERSION
+              value: "1.18.2"
+            - name: UID
+              value: "0"
+            - name: GID
+              value: "0"
+          resources:
+            limits:
+              memory: 2Gi
+              cpu: 1000m
+          volumeMounts:
+            - name: minecraft-lobby-storage
+              mountPath: /data
+      volumes:
+        - name: minecraft-lobby-storage
+          persistentVolumeClaim:
+            claimName: minecraft-lobby-pvc
