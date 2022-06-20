@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  namespace: sasa
+  name: minecraft-resource-pv
+  labels:
+    app: minecraft-resource
+spec:
+  storageClassName: minecraft-resource
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  capacity:
+    storage: 5Gi
+  nfs:
+    server: 192.168.1.200
+    path: /exports/slow-drive-01/k8s/sasa/minecraft/resource
+  persistentVolumeReclaimPolicy: Delete

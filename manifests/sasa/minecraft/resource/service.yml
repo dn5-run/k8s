@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: sasa
+  name: minecraft-resource
+  labels:
+    app: minecraft-resource
+spec:
+  ports:
+    - name: server
+      protocol: TCP
+      port: 25565
+      targetPort: 25565
+  selector:
+    app: minecraft-resource

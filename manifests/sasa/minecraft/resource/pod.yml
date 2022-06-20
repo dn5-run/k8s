@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: sasa
+  name: minecraft-resource
+  labels:
+    app: minecraft-resource
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minecraft-resource
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: minecraft-resource
+    spec:
+      containers:
+        - image: itzg/minecraft-server:java17
+          name: minecraft-resource
+          env:
+            - name: TYPE
+              value: PAPER
+            - name: ENABLE_RCON
+              value: "true"
+            - name: VERSION
+              value: "1.18.2"
+            - name: UID
+              value: "0"
+            - name: GID
+              value: "0"
+          resources:
+            limits:
+              memory: 2Gi
+              cpu: 1000m
+          volumeMounts:
+            - name: minecraft-resource-storage
+              mountPath: /data
+      volumes:
+        - name: minecraft-resource-storage
+          persistentVolumeClaim:
+            claimName: minecraft-resource-pvc
