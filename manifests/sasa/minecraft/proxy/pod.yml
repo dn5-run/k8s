@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: sasa
+  name: minecraft-proxy
+  labels:
+    app: minecraft-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minecraft-proxy
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: minecraft-proxy
+    spec:
+      containers:
+        - image: itzg/bungeecord:java17
+          name: minecraft-proxy
+          env:
+            - name: TYPE
+              value: VELOCITY
+            - name: ENABLE_RCON
+              value: "true"
+          resources:
+            limits:
+              memory: 1Gi
+              cpu: 500m
+          volumeMounts:
+            - name: minecraft-proxy-storage
+              mountPath: /server
+      volumes:
+        - name: minecraft-proxy-storage
+          persistentVolumeClaim:
+            claimName: minecraft-proxy-pvc
