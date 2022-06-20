@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: sasa
+  name: db-mongo
+spec:
+  selector:
+    matchLabels:
+      app: db-mongo
+  template:
+    metadata:
+      labels:
+        app: db-mongo
+    spec:
+      containers:
+      - name: db-mongo
+        image: mongo:4.2.18
+        volumeMounts:
+          - mountPath: /data/db
+            name: db-mongo-data
+      volumes:
+        - name: db-mongo-data
+          persistentVolumeClaim:
+            claimName: db-mongo-pvc
