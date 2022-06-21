@@ -33,7 +33,7 @@ spec:
               value: "0"
           resources:
             limits:
-              memory: 1Gi
+              memory: 2Gi
               cpu: "1"
           volumeMounts:
             - name: minecraft-lobby-storage
