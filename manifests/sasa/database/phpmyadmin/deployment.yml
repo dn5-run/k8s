@@ -28,12 +28,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: secret
-                  key: common_password
+                  key: password
             - name: PMA_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: secret
-                  key: common_password
+                  key: password
           resources:
             limits:
               memory: "128Mi"
