@@ -34,6 +34,13 @@ spec:
           volumeMounts:
             - name: minecraft-main-storage
               mountPath: /data
+          resources:
+            requests:
+              memory: 4Gi
+              cpu: "2"
+            limits:
+              memory: 6Gi
+              cpu: "4"
       volumes:
         - name: minecraft-main-storage
           persistentVolumeClaim:

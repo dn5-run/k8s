@@ -26,9 +26,12 @@ spec:
             - name: ENABLE_RCON
               value: "true"
           resources:
+            requests:
+              memory: "250Mi"
+              cpu: "250m"
             limits:
-              memory: 1Gi
-              cpu: 500m
+              memory: "500Mi"
+              cpu: "500m"
           volumeMounts:
             - name: minecraft-proxy-storage
               mountPath: /server

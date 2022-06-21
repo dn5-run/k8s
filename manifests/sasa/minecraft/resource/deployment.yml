@@ -32,8 +32,11 @@ spec:
             - name: GID
               value: "0"
           resources:
+            requests:
+              memory: "500Mi"
+              cpu: "500m"
             limits:
-              memory: 2Gi
+              memory: "2Gi"
               cpu: "2"
           volumeMounts:
             - name: minecraft-resource-storage

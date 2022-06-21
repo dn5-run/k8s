@@ -32,9 +32,12 @@ spec:
             - name: GID
               value: "0"
           resources:
-            limits:
-              memory: 2Gi
+            requests:
+              memory: "1Gi"
               cpu: "1"
+            limits:
+              memory: "2Gi"
+              cpu: "2"
           volumeMounts:
             - name: minecraft-yomogi-storage
               mountPath: /data
