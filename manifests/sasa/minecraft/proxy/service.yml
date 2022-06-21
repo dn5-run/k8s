@@ -11,7 +11,7 @@ spec:
       protocol: TCP
       port: 41130
       targetPort: 41130
-    - name: BE
+    - name: be
       protocol: UDP
       port: 41130
       targetPort: 41130
