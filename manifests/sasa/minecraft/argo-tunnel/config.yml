@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloudflared
+  namespace: sasa
+data:
+  config.yaml: |
+    tunnel: sasamap
+    credentials-file: /etc/cloudflared/creds/credentials.json
+    metrics: 0.0.0.0:2000
+    no-autoupdate: true
+    ingress:
+      - hostname: sasa-map-lobby.dn5.run
+        service: http://minecraft-lobby:8100
+      - hostname: sasa-map-main.dn5.run
+        service: http://minecraft-main:8123
+      - service: http_status:404
