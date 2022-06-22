@@ -25,6 +25,13 @@ spec:
               value: VELOCITY
             - name: ENABLE_RCON
               value: "true"
+
+
+            - name: INIT_MEMORY
+              value: 250M
+            - name: MAX_MEMORY
+              value: 1G
+
           resources:
             requests:
               memory: "250Mi"

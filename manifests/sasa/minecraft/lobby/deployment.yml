@@ -27,6 +27,12 @@ spec:
               value: "true"
             - name: VERSION
               value: "1.18.2"
+
+            - name: INIT_MEMORY
+              value: 500M
+            - name: MAX_MEMORY
+              value: 1500M
+
             - name: UID
               value: "0"
             - name: GID
