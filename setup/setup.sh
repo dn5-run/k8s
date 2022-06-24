@@ -1,3 +1,10 @@
+kubeadm init --pod-network-cidr=10.244.0.0/16 --ignore-preflight-errors=SystemVerification
+
+export KUBECONFIG=/etc/kubernetes/admin.conf
+echo "export KUBECONFIG=/etc/kubernetes/admin.conf" >> ~/.bashrc
+
+# Install flannel
+mkdir -p /opt/bin
 wget https://github.com/flannel-io/flannel/releases/latest/download/flanneld-amd64 -O /opt/bin/flanneld
 chmod +x /opt/bin/flanneld
 kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
