@@ -29,9 +29,9 @@ spec:
               value: "1.18.2"
 
             - name: INIT_MEMORY
-              value: 500M
+              value: 1G
             - name: MAX_MEMORY
-              value: 1500M
+              value: 2G
 
             - name: UID
               value: "0"
@@ -39,10 +39,10 @@ spec:
               value: "0"
           resources:
             requests:
-              memory: "500Mi"
-              cpu: "500m"
+              memory: "1Gi"
+              cpu: "0.5"
             limits:
-              memory: "1500Mi"
+              memory: "2Gi"
               cpu: "1"
           volumeMounts:
             - name: minecraft-lobby-storage

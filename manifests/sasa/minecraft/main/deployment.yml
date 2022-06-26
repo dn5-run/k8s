@@ -29,9 +29,9 @@ spec:
               value: "1.18.2"
 
             - name: INIT_MEMORY
-              value: 4G
-            - name: MAX_MEMORY
               value: 6G
+            - name: MAX_MEMORY
+              value: 8G
 
             - name: UID
               value: "0"
@@ -42,10 +42,10 @@ spec:
               mountPath: /data
           resources:
             requests:
-              memory: 4Gi
+              memory: 6Gi
               cpu: "2"
             limits:
-              memory: 6Gi
+              memory: 8Gi
               cpu: "4"
       volumes:
         - name: minecraft-main-storage
