@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: dn5
+  name: discord-bot-pvc
+  labels:
+    app: discord-bot
+spec:
+  storageClassName: discord-bot
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi

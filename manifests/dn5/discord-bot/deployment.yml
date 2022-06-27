@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: dn5
+  name: discord-bot
+spec:
+  selector:
+    matchLabels:
+      app: discord-bot
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: discord-bot
+    spec:
+      containers:
+      - name: discord-bot
+        image: golang:latest
+        command:
+          - "/run.sh"
+        env:
+          - name: DISCORD_APP_ID
+            valueFrom:
+              secretKeyRef:
+                name: discord-bot-secret
+                key: DISCORD_APP_ID
+          - name: DISCORD_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: discord-bot-secret
+                key: DISCORD_TOKEN
+
+          - name: GUILD_ID
+            valueFrom:
+              secretKeyRef:
+                name: discord-bot-secret
+                key: GUILD_ID
+
+          - name: CAPTCHA_AUTH_ID
+            valueFrom:
+              secretKeyRef:
+                name: discord-bot-secret
+                key: CAPTCHA_AUTH_ID
+          - name: CAPTCHA_AUTH_CHANNEL_ID
+            valueFrom:
+              secretKeyRef:
+                name: discord-bot-secret
+                key: CAPTCHA_AUTH_CHANNEL_ID
+
+        volumeMounts:
+          - mountPath: /.data
+            name: discord-bot-data
+          - mountPath: /run.sh
+            subPath: run.sh
+            name: discord-bot-run
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+      volumes:
+        - name: discord-bot-data
+          persistentVolumeClaim:
+            claimName: discord-bot-pvc
+        - name: discord-bot-run
+          configMap:
+            name: discord-bot-run
+            defaultMode: 0777

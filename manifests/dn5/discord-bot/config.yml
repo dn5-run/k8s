@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: dn5
+  name: discord-bot-run
+data:
+  run.sh: |
+    #!/bin/bash
+    git clone https://github.com/dn5-run/discord-bot.git /app
+    cd /app
+    ln -s /.data /app/.data
+    go run .
