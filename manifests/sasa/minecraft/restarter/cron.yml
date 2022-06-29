@@ -1,0 +1,26 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  namespace: sasa
+  name: minecraft-restart-cron
+spec:
+  schedule: "0 4 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: minecraft-restarter
+          containers:
+          - name: minecraft-restart-cron
+            image: bitnami/kubectl
+            command: ["/bin/sh", "-c", 
+              "
+                kubectl rollout restart deploy minecraft-lobby -n sasa;
+                kubectl rollout restart deploy minecraft-yomogi -n sasa;
+                kubectl rollout restart deploy minecraft-main -n sasa;
+                kubectl rollout restart deploy minecraft-resource -n sasa;
+                kubectl rollout restart deploy minecraft-proxy -n sasa;
+              "
+            ]
+              
+          restartPolicy: Never

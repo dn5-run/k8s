@@ -1,0 +1,12 @@
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: minecraft-restarter
+subjects:
+  - kind: ServiceAccount
+    namespace: sasa
+    name: minecraft-restarter
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io
