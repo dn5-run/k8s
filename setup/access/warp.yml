@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cloudflare-tunnel
+  name: cloudflare-warp
   namespace: system
 spec:
   selector:
     matchLabels:
-      app: cloudflare-tunnel
+      app: cloudflare-warp
   replicas: 1
   template:
     metadata:
       labels:
-        app: cloudflare-tunnel
+        app: cloudflare-warp
     spec:
       containers:
-        - name: cloudflare-tunnel
+        - name: cloudflare-warp
           image: cloudflare/cloudflared:latest
           args:
             - tunnel
@@ -48,7 +48,7 @@ spec:
             secretName: cloudflare-access-credentials
         - name: config
           configMap:
-            name: cloudflare-tunnel
+            name: cloudflare-warp
             items:
               - key: config.yaml
                 path: config.yaml
@@ -56,17 +56,13 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: cloudflare-tunnel
+  name: cloudflare-warp
   namespace: system
 data:
   config.yaml: |
-    tunnel: _k8s
-    credentials-file: /etc/cloudflared/creds/tunnel.json
+    tunnel: _vpn
+    credentials-file: /etc/cloudflared/creds/warp.json
     metrics: 0.0.0.0:2000
     no-autoupdate: true
-    ingress:
-      - hostname: _k8s.dn5.run
-        service: http://nginx.system:80
-        originRequest:
-          noTLSVerify: true
-      - service: http_status:404
+    warp-routing:
+      enabled: true
