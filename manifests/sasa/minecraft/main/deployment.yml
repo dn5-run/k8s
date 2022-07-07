@@ -28,8 +28,6 @@ spec:
             - name: VERSION
               value: "1.18.2"
 
-            - name: INIT_MEMORY
-              value: 6G
             - name: MAX_MEMORY
               value: 8G
 
@@ -42,11 +40,8 @@ spec:
               mountPath: /data
           resources:
             requests:
-              memory: 6Gi
+              memory: 8G
               cpu: "2"
-            limits:
-              memory: 8Gi
-              cpu: "4"
       volumes:
         - name: minecraft-main-storage
           persistentVolumeClaim:

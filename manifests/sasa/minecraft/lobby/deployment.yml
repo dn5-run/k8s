@@ -37,13 +37,6 @@ spec:
               value: "0"
             - name: GID
               value: "0"
-          resources:
-            requests:
-              memory: "1Gi"
-              cpu: "0.5"
-            limits:
-              memory: "2Gi"
-              cpu: "1"
           volumeMounts:
             - name: minecraft-lobby-storage
               mountPath: /data
