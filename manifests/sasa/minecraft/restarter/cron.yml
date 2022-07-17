@@ -4,7 +4,7 @@ metadata:
   namespace: sasa
   name: minecraft-restart-cron
 spec:
-  schedule: "0  * * *"
+  schedule: "0 19 * * *"
   jobTemplate:
     spec:
       template:
